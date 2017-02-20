@@ -1,0 +1,148 @@
+
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+//******************************************************************************************************
+
+void getSize (int *);
+float *getValues (const int);
+float getMax (const float *, const int);
+void displayForward (const float *, const int );
+void displayBackward (float * const, const int);
+
+//******************************************************************************************************
+
+int main ()
+{
+	float * ptData = nullptr;
+	int Size;
+	float average;
+	
+	getSize (&Size);
+	ptData = getValues (Size);
+	displayForward (ptData, Size);
+	displayBackward (ptData, Size);
+	average = getMax(ptData, Size);
+	cout << endl;
+	cout << "The maximum value of this array is: " << average << endl;
+
+	delete [] ptData;
+	ptData = 0;
+	return 0;
+}
+
+//******************************************************************************************************
+
+void getSize (int * ptr)
+{
+	const int TEST_MIN = 1;
+	
+
+	cout << "Please enter a size to the array: " ;
+	cin >> *ptr;
+	
+
+	while ( *(ptr) <= TEST_MIN)
+	{
+		cout << "Error: an array's size cannot be less or equal to 1" << endl;
+		cout << "Please enter a size to the array: ";
+		cin >> *ptr;
+	}
+
+}
+
+//******************************************************************************************************
+
+float * getValues (const int Size)
+{
+	const int TEST_MIN = 0;	
+	float * arr = nullptr;  
+	arr = new float [Size];
+
+	cout << endl;
+	cout << "Please enter all values of the array: " << endl;
+
+	for (int index = TEST_MIN; index < Size; index++)
+	{
+		
+		cout << "Value " << (index + 1) << ": ";
+		cin >> arr[index];
+	}
+
+	return arr;
+	
+}
+
+//******************************************************************************************************
+
+float getMax (const float * ptr, const int SIZE)
+{
+	const int TEST_MIN = 1;
+	float max = ptr[0];
+
+	for (int index = TEST_MIN; index < SIZE; index++)
+	{
+		if (max < ptr[index])
+		{
+			max = ptr[index];
+		}
+	}
+	
+	return max;
+}
+
+//******************************************************************************************************
+
+void displayForward (const float * ptr, const int SIZE)
+{
+	const int TEST_MIN = 0;
+	
+	cout << endl;
+	cout << "Displaying all values forward: " << endl;
+
+	for (int index = TEST_MIN; index < SIZE; index++)
+	{
+		cout << left << setw(5) << *(ptr + index);
+	}
+
+}
+
+//******************************************************************************************************
+
+void displayBackward (float * const ptr, const int SIZE)
+{
+	const int TEST_MIN = 0;
+	const float *ptr2 = ptr + SIZE;
+
+	cout << endl;
+	cout << "Displaying all values backward: " << endl;
+
+	while (ptr < ptr2)
+	{
+		ptr2--;
+		cout << setw(5) << * ptr2;
+		
+	}
+
+}
+
+// Display Information enter by user
+/* Please enter a size to the array: -9
+Error: an array's size cannot be less or equal to 1
+Please enter a size to the array: 6
+
+Please enter all values of the array:
+Value 1: 4
+Value 2: 5
+Value 3: 7
+Value 4: 2
+Value 5: 1
+Value 6: 8
+*/
+
+Displaying all values forward:
+4    5    7    2    1    8
+Displaying all values backward:
+8    1    2    7    5    4
