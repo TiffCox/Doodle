@@ -1,0 +1,91 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+//******************************************************************************************************
+//Prototype
+//******************************************************************************************************
+
+void getRainfall (float &);
+float lowAmount (float, float, float, float, float, float, float, float, float, float, float, float);
+
+//******************************************************************************************************
+// Main Function
+//******************************************************************************************************
+
+int main ()
+{
+	const int SIZE = 12,          // Array size declaration
+			TEST_MIN = 0;
+	float rainfall [SIZE],
+		  rain_average,           // Holds the average
+	      rain_runningTotal = 0;  // Initialize accumulator 
+		  
+	string month [SIZE] = { "Jan", "Feb", "Mar", "Apr", "May",
+		                    "Jun", "Jul", "Aug", "Sep", "Oct",
+							"Nov", "Dec"};
+	
+	      
+	float highest,   // Holds the highest rain amount
+	      lowest;    // Holds the lowest rain amount
+	const int TEST_MIN_TW0 =1;
+
+
+	
+	// Prompt user for rain amount
+	for (int count = TEST_MIN; count < SIZE; count++)
+	{
+		cout << "Please enter the rain amount for " << month [count] << ": ";
+		getRainfall (rainfall [count]);
+		rain_runningTotal += (rainfall [count]);
+
+	}
+
+	// Find the highest rainfall
+	highest = rainfall[0];
+
+	for (int count = TEST_MIN_TW0; count < SIZE; count++)
+	{
+		if (rainfall [count] > highest)
+			highest = rainfall [count];
+	}
+
+	// Find the lowest rainfall
+	lowest = rainfall [0];
+
+	for (int count = TEST_MIN_TW0; count < SIZE; count++)
+	{
+		if (rainfall [count] < lowest)
+			lowest = rainfall [count];
+	}
+	
+	// Display total rainfall, average rainfall, maximum rainfall, and minimum rainfall
+	rain_average = rain_runningTotal /SIZE;
+	
+	cout << fixed << showpoint << setprecision (1);
+	cout << "\nTotal rainfall: " << setw (9) << rain_runningTotal << endl;
+	cout << "Average: " << setw (15) << rain_average << endl;
+	cout << "Maximum: " << setw (15) << highest << endl;
+	cout << "Minimum: " << setw (14) << lowest << endl;
+	return 0;	
+
+}
+
+//******************************************************************************************************
+// Function getRainfall ask user to enter amount of rain for each month
+//******************************************************************************************************
+
+void getRainfall (float & rain)
+{
+	const int TEST_MIN = 0;
+
+	cin >> rain;
+	
+	while (rain < TEST_MIN)
+	{
+		cout << "Incorrect: rain amount must be greater than 0, please re-enter " << endl;
+		cin >> rain;
+	}
+		
+}
