@@ -1,0 +1,155 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+//******************************************************************************************************
+// Prototype
+//******************************************************************************************************
+
+void run ();
+void loadData(int scores[], const int SIZE, fstream & inFile);
+void sortArray(int scores[], const int SIZE);
+double calcAverage(int scores[], const int SIZE);
+void outputScores(int scores[], const int SIZE, int num_student, double avg, fstream & outFile);
+
+//******************************************************************************************************
+// Main
+//******************************************************************************************************
+
+const int SIZE = 10;
+
+int main ()
+{ 
+	
+	run ();
+	return 0;
+}
+
+//******************************************************************************************************
+// void run Function
+// Function will declare a filestream and open file, scores.txt. Then declare an array of integers
+//******************************************************************************************************
+
+void run ()
+{
+	fstream inFile;
+	inFile.open("score.txt", ios::in);
+
+    fstream outFile;
+	outFile.open("a7.txt", ios::out);
+
+	int scores[SIZE];
+
+	int num_student;
+	double avg;
+	
+
+	inFile >> num_student;
+	
+	outFile << "STUDENT TEST SCORES" << endl;
+	outFile << "**********************************" << endl;
+	outFile.close();
+	 
+	for( int i = 0; i < num_student; i++)
+	{
+		loadData(scores, SIZE, inFile);
+		sortArray(scores, SIZE);
+		avg = calcAverage(scores, SIZE);
+		outputScores(scores, SIZE, num_student, avg, outFile);
+		
+	}
+	inFile.close();
+
+	
+}
+
+//******************************************************************************************************
+// loadData Function
+// This function will receive the array, the size of the array, and open filestream. You will continue
+// reading the next 10 elements from the file and load them one by one int the array using point 
+// notation.
+//******************************************************************************************************
+
+void loadData(int scores[], const int SIZE, fstream & inFile)
+{
+	for(int s = 0; s < SIZE; s++)
+	{
+		inFile >> *(scores + s);
+		
+	}
+}
+	
+//******************************************************************************************************
+// sortArray Function
+// This function will receive the array and the size of the array. It will sort the array in ascending 
+// order (a-z). Use a sort algorithm of your choosing (bubble sort or selection sort). You must use
+// pointer notation.
+//******************************************************************************************************
+
+void sortArray(int scores[], const int SIZE)
+{
+	
+	bool swap;
+
+	int temp;
+
+	do
+	{
+		swap = false;
+		for(int count = 0; count < (SIZE - 1); count++)
+		{
+			if (*(scores + count) > *(scores + (count + 1)))
+			{
+				temp = *(scores + count);
+				*(scores + count) = *(scores +(count + 1));
+				*(scores +(count + 1)) = temp;
+				swap = true;
+			}
+		} 
+	} while (swap);
+	
+}
+	
+
+//******************************************************************************************************
+// calAverage function
+// This function will receive the array and the size of the array. It will calculate the average for
+// the array of scores. It will return the average.
+//******************************************************************************************************
+
+double calcAverage(int scores[], const int SIZE)
+{
+	double average = 0, total = 0;
+
+	for( int a = 0; a < SIZE; a++)
+		total += scores[a];
+
+	average = total/ SIZE;
+
+	return average;
+}
+
+//******************************************************************************************************
+// outputScores Function
+// This function receive the loaded array the size of the array, the student number, the average for
+ // and output each object to the text file. a7.txt. You will need to open the filestream(appending)
+// prior to going into the loop to output.
+//******************************************************************************************************
+
+void outputScores(int scores[], const int SIZE, int num_student, double avg, fstream & outFile)
+{
+	
+	num_student = 0;
+	outFile.open ("a7.txt", ios::app);
+	
+	outFile << "Student " << num_student + 1 << ": "<< endl;
+	
+	for(int s = 0; s < SIZE; s++)
+	{
+		outFile << *(scores + s) << " ";
+	}
+	outFile << "\nAverage Score: "<<avg << endl;
+	
+	outFile.close();
+
+}
